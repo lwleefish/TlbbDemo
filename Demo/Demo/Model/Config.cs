@@ -26,6 +26,10 @@ namespace Demo.Model
         public string goodsName { get; set; }
         [DataMember]
         public Position offset { get; set; }
+        [DataMember]
+        public Position price { get; set; }
+        [DataMember]
+        public Rect priceRect { get; set; }
     }
     [DataContract]
     public class Position

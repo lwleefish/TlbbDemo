@@ -1,9 +1,6 @@
-﻿using iTextSharp.text.pdf;
-using iTextSharp.text.pdf.parser;
-using System;
+﻿using System;
 using System.IO;
 using System.Windows.Forms;
-using OpenCvSharp;
 using Demo.Utils;
 using System.Threading;
 using System.Drawing;
@@ -20,7 +17,8 @@ namespace Demo
         Thread Task_Thr = null;
         bool g_needSearch = true;
         bool run = true;
-        private int[,] transaction_data = new int[25, 25];
+        private int[,] transaction_data = new int[Constant.calWidth, Constant.calWidth];
+        private int[,] price_data = new int[Constant.calWidth, Constant.calWidth];
         KeyboardHook k_hook = new KeyboardHook();
         Random _r = new Random();
         public Form1()
@@ -32,9 +30,9 @@ namespace Demo
             ui_context = SynchronizationContext.Current;
             setField();
             getClientPosition();
-            getTransactionData();
+            getTransactionData(Path.Combine(path, "transaction.jpg"), transaction_data, false);
+            getTransactionData(Path.Combine(path, "price.jpg"), price_data, false);
             k_hook.KeyDownEvent += new KeyEventHandler(hook_KeyDown);//钩住键按下
-            
         }
         //3.判断输入键值（实现KeyDown事件）
         private void hook_KeyDown(object sender, KeyEventArgs e)
@@ -51,7 +49,7 @@ namespace Demo
             //bool b =getShotAndCalDev(goodsRect.Left + g_rect.Left, goodsRect.Top + g_rect.Top, goodsRect.Right - goodsRect.Left, goodsRect.Bottom - goodsRect.Top);
             //rtb_Log.AppendText("success" + b.ToString());
             Config config = new Config();
-            config.transaction = new Position() { X = tb_transaction_x.Text.Trim(), Y = tb_transaction_x.Text.Trim() };
+            config.transaction = new Position() { X = tb_transaction_x.Text.Trim(), Y = tb_transaction_y.Text.Trim() };
             config.search = new Position() { X = tb_search_x.Text.Trim(), Y = tb_search_y.Text.Trim() };
             config.inputText = new Position() { X = tb_input_x.Text.Trim(), Y = tb_input_y.Text.Trim() };
             config.goodsName = tb_goodsName.Text.Trim();
@@ -60,10 +58,13 @@ namespace Demo
             config.FirstGoods = new Position() { X = tb_firstGood_x.Text.Trim(), Y = tb_firstGood_y.Text.Trim() };
             config.BuyBtn = new Position() { X = tb_buy_x.Text.Trim(), Y = tb_buy_y.Text.Trim() };
             config.offset = new Position() { X = tb_offsetx.Text.Trim(), Y = tb_offsety.Text.Trim() };
+            config.price = new Position() { X = tb_price_x.Text.Trim(), Y = tb_price_y.Text.Trim() };
             config.goodsrect = goodsRect;
             config.transactionRect = transactionRect;
+            config.priceRect = priceRect;
             SerializeHelper.XMLSerialize(config, Path.Combine(path, "config.xml"));
         }
+
         private bool getShotAndCalDev(int x, int y, int cutWidth, int cutHeight)
         {
             if (!string.IsNullOrEmpty(tb_offsetx.Text.Trim()))
@@ -75,46 +76,48 @@ namespace Demo
                 y = y - Convert.ToInt32(tb_offsety.Text.Trim());
             }
             Graphics g = null;
+             //= null;
             int deviation = 0;
             try
             {
-                Bitmap baseImage = new Bitmap(cutWidth, cutHeight);
-                g = Graphics.FromImage(baseImage);
-                g.CopyFromScreen(x, y, 0, 0, new System.Drawing.Size(cutWidth, cutHeight));
-                baseImage.Save(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, Constant.PicName));
-                BitmapData data = baseImage.LockBits(new Rectangle(0, 0, baseImage.Width, baseImage.Height), ImageLockMode.ReadWrite, PixelFormat.Format24bppRgb);
-                //System.Collections.Queue queue = new System.Collections.Queue();
-
-                int tmp = 0;
-                unsafe
+                using (Bitmap baseImage = new Bitmap(cutWidth, cutHeight))
                 {
-                    byte* ptr = (byte*)(data.Scan0);
-                    int width = data.Width <= 150 ? data.Width : 150;
-                    int height = data.Height <= 60 ? data.Height : 60;
-                    for (int i = 0; i < data.Height; i++)//60
+                    g = Graphics.FromImage(baseImage);
+                    g.CopyFromScreen(x, y, 0, 0, new System.Drawing.Size(cutWidth, cutHeight));
+                    baseImage.Save(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, Constant.PicName));
+                    BitmapData data = baseImage.LockBits(new Rectangle(0, 0, baseImage.Width, baseImage.Height), ImageLockMode.ReadWrite, PixelFormat.Format24bppRgb);
+                    //System.Collections.Queue queue = new System.Collections.Queue();
+                    int tmp = 0;
+                    unsafe
                     {
-                        for (int j = 0; j < width; j++)//150
+                        byte* ptr = (byte*)(data.Scan0);
+                        int width = data.Width <= 150 ? data.Width : 150;
+                        int height = data.Height <= 60 ? data.Height : 60;
+                        for (int i = 0; i < data.Height; i++)//60
                         {
-                            int bule = *ptr;  //117
-                            int green = *(ptr + 1);  //142
-                            int red = *(ptr + 2);  //165
-                            if (Math.Abs(bule - 117) > 20 || Math.Abs(green - 142) > 20 || Math.Abs(red - 165) > 20)
+                            for (int j = 0; j < width; j++)//150
                             {
-                                tmp++; //单行偏差点个数
+                                int bule = *ptr;  //117
+                                int green = *(ptr + 1);  //142
+                                int red = *(ptr + 2);  //165
+                                if (Math.Abs(bule - 117) > 20 || Math.Abs(green - 142) > 20 || Math.Abs(red - 165) > 20)
+                                {
+                                    tmp++; //单行偏差点个数
+                                }
+                                ptr += 3; //
                             }
-                            ptr += 3; //
+                            if (tmp >= 30) deviation++; //单行偏差点大于50
+                            ptr += data.Stride - data.Width * 3;
+                            if (data.Width > 150)
+                            {
+                                ptr += (data.Width - 150) * 3;
+                            }
+                            if (deviation > 40)
+                                break;
                         }
-                        if (tmp >= 30) deviation++; //单行偏差点大于50
-                         ptr += data.Stride - data.Width * 3;
-                        if (data.Width > 150)
-                        {
-                            ptr += (data.Width - 150) * 3;
-                        }
-                        if (deviation > 40)
-                            break;
                     }
+                    baseImage.UnlockBits(data);
                 }
-                baseImage.UnlockBits(data);
             }
             catch { }
             finally
@@ -124,37 +127,37 @@ namespace Demo
             return deviation > 40;
         }
 
-        private int getDeviation()
-        {
-            Mat goodsPic = Cv2.ImRead(Path.Combine(path, Constant.PicName), ImreadModes.Color);
-            int deviation = 0;
-            System.Collections.Queue queue = new System.Collections.Queue();
-            for (int j = 0; j < goodsPic.Height; j += 3)
-            {
-                queue.Clear();
-                for (int i = 0; i < Width; i += 3)
-                {
-                    Vec3b color = goodsPic.Get<Vec3b>(j, i);
-                    int b = color.Item0;  //117
-                    int g = color.Item1;  //142
-                    int r = color.Item2;  //165
-                    if (Math.Abs(b - 117) > 20 || Math.Abs(g - 142) > 20 || Math.Abs(r - 165) > 20)
-                    {
-                        queue.Enqueue(i);
-                    }
-                    if (queue.Count > 5)
-                    {
-                        deviation++;
-                        break;
-                    }
-                }
-                if (deviation > 5)
-                {
-                    break;
-                }
-            }
-            return deviation;
-        }
+        //private int getDeviation()
+        //{
+        //    Mat goodsPic = Cv2.ImRead(Path.Combine(path, Constant.PicName), ImreadModes.Color);
+        //    int deviation = 0;
+        //    System.Collections.Queue queue = new System.Collections.Queue();
+        //    for (int j = 0; j < goodsPic.Height; j += 3)
+        //    {
+        //        queue.Clear();
+        //        for (int i = 0; i < Width; i += 3)
+        //        {
+        //            Vec3b color = goodsPic.Get<Vec3b>(j, i);
+        //            int b = color.Item0;  //117
+        //            int g = color.Item1;  //142
+        //            int r = color.Item2;  //165
+        //            if (Math.Abs(b - 117) > 20 || Math.Abs(g - 142) > 20 || Math.Abs(r - 165) > 20)
+        //            {
+        //                queue.Enqueue(i);
+        //            }
+        //            if (queue.Count > 5)
+        //            {
+        //                deviation++;
+        //                break;
+        //            }
+        //        }
+        //        if (deviation > 5)
+        //        {
+        //            break;
+        //        }
+        //    }
+        //    return deviation;
+        //}
         private void setField()
         {
             Config config = null;
@@ -182,6 +185,9 @@ namespace Demo
                     tb_offsety.Text = config.offset?.Y;
                     goodsRect = config.goodsrect;
                     transactionRect = config.transactionRect;
+                    priceRect = config.priceRect;
+                    tb_price_x.Text = config.price.X;
+                    tb_price_y.Text = config.price.Y;
                 }
             }
             catch
@@ -218,17 +224,17 @@ namespace Demo
             ui_context.Send(t => { screenPoint = contral.PointToScreen(contral.Location); }, null);
             return screenPoint;
         }
-        private void changeNum(Mat src, Mat img)
-        {
-            //for (int i = 800; i < 860; i++) 
-            //{
-            //    for (int j = 755; j < 842; j++)
-            //    {
-            //        src.Set(j, i, img.At<Vec3b>(j - 755, i - 800));
-            //    }
-            //}
-            //Cv2.ImWrite("bbbb.jpg", src);
-        }
+        //private void changeNum(Mat src, Mat img)
+        //{
+        //    for (int i = 800; i < 860; i++)
+        //    {
+        //        for (int j = 755; j < 842; j++)
+        //        {
+        //            src.Set(j, i, img.At<Vec3b>(j - 755, i - 800));
+        //        }
+        //    }
+        //    Cv2.ImWrite("bbbb.jpg", src);
+        //}
         //private void readPdf(string file)
         //{
         //    PdfReader pdfReader = new PdfReader(file);
@@ -272,6 +278,9 @@ namespace Demo
                 case "btn_buy":
                     space = new Space(tb_buy_x, tb_buy_y);
                     break;
+                case "btn_price":
+                    space = new Space(tb_price_x, tb_price_y);
+                    break;
                 default:
                     return;
             }
@@ -282,6 +291,7 @@ namespace Demo
         }
         Model.Rect goodsRect = new Model.Rect();
         Model.Rect transactionRect = new Model.Rect();
+        Rect priceRect = new Rect();
         public void setPoint(TextBox tbx, TextBox tby, Model.Rect rect)
         {
             try
@@ -301,72 +311,93 @@ namespace Demo
                         new Thread(tr => {
                             Thread.Sleep(50);
                             getShot(transactionRect.Left + g_rect.Left, transactionRect.Top + g_rect.Top, transactionRect.Right - transactionRect.Left, transactionRect.Bottom - transactionRect.Top, "transaction.jpg");
-                            getTransactionData(true);
+                            getTransactionData(Path.Combine(path, "transaction.jpg"), transaction_data, false);
+                        }).Start();
+                    }
+                    if (tbx.Tag.Equals("price"))
+                    {
+                        priceRect = new Rect(rect.Left - g_rect.Left, rect.Top - g_rect.Top, rect.Right - g_rect.Left, rect.Bottom - g_rect.Top);
+                        new Thread(tr =>
+                        {
+                            Thread.Sleep(50);
+                            getShot(priceRect.Left + g_rect.Left, priceRect.Top + g_rect.Top, priceRect.Right - priceRect.Left, priceRect.Bottom - priceRect.Top, "price.jpg");
+                            getTransactionData(Path.Combine(path, "price.jpg"), price_data, false);
                         }).Start();
                     }
                 }
             }
             catch { }
         }
-
-        private bool getTransactionData(bool save = false)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="save"></param>
+        /// <returns></returns>
+        private bool getTransactionData(string file, int[,] arr, bool isSaved = true) 
         {
             int diff = 0;
             try
             {
-                string file = "";
-                bool isSaved = false;
-                if (!save && transaction_data.Length > 0)
-                {
-                    isSaved = true;
-                }
-                if (isSaved)
+                if (string.IsNullOrEmpty(file))
                 {
                     file = Path.Combine(path, Constant.PicName);
                 }
-                else
-                {
-                    file = Path.Combine(path, "transaction.jpg");
+                //bool isSaved = false;
+                //if (!save)
+                //{
+                //    isSaved = true;
+                //}
+                //if (isSaved)
+                //{
+                    
+                //}
+                //else
+                //{
+                //    file = Path.Combine(path, "transaction.jpg");
                     if (!File.Exists(file))
                     {
                         return false;
                     }
-                }
-                Bitmap bmp = (Bitmap)Image.FromFile(file);
-                bmp.Save(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, Constant.PicName));
-                BitmapData data = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadWrite, PixelFormat.Format24bppRgb);
-                unsafe
+                //}
+                using (Bitmap bmp = (Bitmap)Image.FromFile(file))
                 {
-                    byte* ptr = (byte*)(data.Scan0);
-                    int width = data.Width <= Constant.calWidth ? data.Width : Constant.calWidth;
-                    int height = data.Height <= Constant.calWidth ? data.Height : Constant.calWidth;
-                    int red = 0;
-                    for (int i = 0; i < height; i++)
+                    //bmp.Save(file);
+                    BitmapData data = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadWrite, PixelFormat.Format24bppRgb);
+                    unsafe
                     {
-                        for (int j = 0; j < width; j++)
+                        byte* ptr = (byte*)(data.Scan0);
+                        int width = data.Width <= Constant.calWidth ? data.Width : Constant.calWidth;
+                        int height = data.Height <= Constant.calWidth ? data.Height : Constant.calWidth;
+                        int red = 0;
+                        for (int i = 0; i < height; i++)
                         {
-                            red = *(ptr + 2);//b g r
-                            if (!isSaved)
+                            for (int j = 0; j < width; j++)
                             {
-                                transaction_data[j, i] = red;
+                                red = *(ptr + 2);//b g r
+                                if (!isSaved)
+                                {
+                                    arr[j, i] = red;
+                                }
+                                else if (!red.Equals(arr[j, i]))
+                                {
+                                    diff++;
+                                }
+                                ptr += 3;
                             }
-                            else if (!red.Equals(transaction_data[j, i]))
+                            ptr += data.Stride - data.Width * 3;
+                            if (data.Width > Constant.calWidth)
                             {
-                                diff++;
+                                ptr += (data.Width - Constant.calWidth) * 3;
                             }
-                            ptr += 3;
-                        }
-                        ptr += data.Stride - data.Width * 3;
-                        if (data.Width > 25)
-                        {
-                            ptr += (data.Width - 25) * 3;
                         }
                     }
+                    bmp.UnlockBits(data);
                 }
-                bmp.UnlockBits(data);
             }
-            catch { }
-            return diff < 50;
+            catch(Exception e) {
+                Console.WriteLine("Message:" + e.Message + " Source:" + e.Source + "S tackTrace:" + e.StackTrace + "TargetSite" + e.TargetSite);
+            }
+            return diff < (Constant.calWidth * Constant.calWidth / 10);
         }
         /// <summary>
         /// 是否包含
@@ -383,6 +414,7 @@ namespace Demo
         /// </summary>
         private void getShot(int x, int y, int cutWidth, int cutHeight, string filename = Constant.PicName)
         {
+
             if (!string.IsNullOrEmpty(tb_offsetx.Text.Trim()))
             {
                 x = x - Convert.ToInt32(tb_offsetx.Text.Trim());
@@ -391,16 +423,23 @@ namespace Demo
             {
                 y = y - Convert.ToInt32(tb_offsety.Text.Trim());
             }
+            Graphics g = null;
             //try
             //{
-                Bitmap baseImage = new Bitmap(cutWidth, cutHeight);
-                Graphics g = Graphics.FromImage(baseImage);
-                g.CopyFromScreen(x, y, 0, 0, new System.Drawing.Size(cutWidth, cutHeight));
-                baseImage.Save(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, filename));
+            using (Bitmap baseImage = new Bitmap(cutWidth, cutHeight))
+            {
+                g = Graphics.FromImage(baseImage);
+                g.CopyFromScreen(x, y, 0, 0, new Size(cutWidth, cutHeight));
+                string file = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, filename);
+                if (File.Exists(file))
+                {
+                    File.Delete(file);
+                }
+                baseImage.Save(file);
                 g.Dispose();
+            }
             //}
             //catch {
-                
             //}
         }
         private void btn_testClick_Click(object sender, EventArgs e)
@@ -482,12 +521,19 @@ namespace Demo
         /// </summary>
         private void DoTask()
         {
-            
+            int counts = 0;
             while (run)
             {
-                if (needClickTransaction())
+                if (0 == counts++)
                 {
-                    ClickField("btn_transactionBtn");
+                    if (needClickTransaction())
+                    {
+                        ClickField("btn_transactionBtn");
+                    }
+                }
+                if (counts > 5)
+                {
+                    counts = 0;
                 }
                 Thread.Sleep((int)nud_thr.Value + _r.Next(50));
                 //Thread.Sleep(3000);
@@ -504,6 +550,7 @@ namespace Demo
                 }
                 ClickField("btn_goodsClick");
                 Thread.Sleep(500);
+
                 bool hasGoods = false;
                 hasGoods = getShotAndCalDev(goodsRect.Left + g_rect.Left, goodsRect.Top + g_rect.Top, goodsRect.Right - goodsRect.Left, goodsRect.Bottom - goodsRect.Top);
                 //Thread.Sleep(50);
@@ -513,16 +560,25 @@ namespace Demo
                     //Thread.Sleep(Constant.Sleep1Seconds);
                     continue;
                 }
-                ClickField("btn_firstGoodBtn");
-                Thread.Sleep(200);
-                ClickField("btn_buyClick");
+                else if(boolprice && priceIsRight())
+                {
+                    ClickField("btn_firstGoodBtn");
+                    Thread.Sleep(200);
+                    ClickField("btn_buyClick");
+                }
+
             }
         }
 
         private bool needClickTransaction()
         {
             getShot(transactionRect.Left + g_rect.Left, transactionRect.Top + g_rect.Top, transactionRect.Right - transactionRect.Left, transactionRect.Bottom - transactionRect.Top);
-            return getTransactionData();
+            return getTransactionData(null, transaction_data);
+        }
+        private bool priceIsRight()
+        {
+            getShot(priceRect.Left + g_rect.Left, priceRect.Top + g_rect.Top, priceRect.Right - priceRect.Left, priceRect.Bottom - priceRect.Top);
+            return getTransactionData(null, price_data);
         }
         /// <summary>
         /// 搜索选项事件
@@ -541,8 +597,9 @@ namespace Demo
         /// <param name="e"></param>
         private void btn_t_Click(object sender, EventArgs e)
         {
-            //getShot(transactionRect.Left + g_rect.Left, transactionRect.Top + g_rect.Top, transactionRect.Right - transactionRect.Left, transactionRect.Bottom - transactionRect.Top);
-            bool b = getTransactionData();
+            Rect rect = priceRect;// transactionRect;
+            getShot(rect.Left + g_rect.Left, rect.Top + g_rect.Top, rect.Right - rect.Left, rect.Bottom - rect.Top);
+            //bool b = getTransactionData();
         }
 
         int offset_x = 0, offset_y;
@@ -551,7 +608,11 @@ namespace Demo
         {
 
         }
-
+        bool boolprice = false;
+        private void cb_price_CheckedChanged(object sender, EventArgs e)
+        {
+            boolprice = cb_price.Checked;
+        }
         private void tb_offsetx_KeyPress(object sender, KeyPressEventArgs e)
         {
             TextBox tb = (TextBox)sender;

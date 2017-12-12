@@ -12,6 +12,6 @@ namespace Demo.Model
         public const string Mo_Title = "腾讯手游助手";
         public const string PicName = "tmp.jpg";
         public const int Sleep1Seconds = 1000;
-        public const int calWidth = 25;
+        public const int calWidth = 35;
     }
 }

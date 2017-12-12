@@ -95,6 +95,13 @@
             this.tb_offsetx = new System.Windows.Forms.TextBox();
             this.tb_offsety = new System.Windows.Forms.TextBox();
             this.btn_offset = new System.Windows.Forms.Button();
+            this.cb_price = new System.Windows.Forms.CheckBox();
+            this.label24 = new System.Windows.Forms.Label();
+            this.label25 = new System.Windows.Forms.Label();
+            this.tb_price_x = new System.Windows.Forms.TextBox();
+            this.tb_price_y = new System.Windows.Forms.TextBox();
+            this.btn_price = new System.Windows.Forms.Button();
+            this.btn_priceClick = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_thr)).BeginInit();
             this.gb_test.SuspendLayout();
@@ -102,7 +109,7 @@
             // 
             // Test
             // 
-            this.Test.Location = new System.Drawing.Point(74, 263);
+            this.Test.Location = new System.Drawing.Point(74, 271);
             this.Test.Name = "Test";
             this.Test.Size = new System.Drawing.Size(96, 23);
             this.Test.TabIndex = 0;
@@ -159,7 +166,7 @@
             // lbe_search
             // 
             this.lbe_search.AutoSize = true;
-            this.lbe_search.Location = new System.Drawing.Point(9, 54);
+            this.lbe_search.Location = new System.Drawing.Point(9, 53);
             this.lbe_search.Name = "lbe_search";
             this.lbe_search.Size = new System.Drawing.Size(41, 12);
             this.lbe_search.TabIndex = 2;
@@ -168,7 +175,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(61, 54);
+            this.label5.Location = new System.Drawing.Point(61, 53);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(23, 12);
             this.label5.TabIndex = 2;
@@ -177,7 +184,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(147, 54);
+            this.label6.Location = new System.Drawing.Point(147, 53);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(23, 12);
             this.label6.TabIndex = 2;
@@ -185,7 +192,7 @@
             // 
             // tb_input_x
             // 
-            this.tb_input_x.Location = new System.Drawing.Point(87, 50);
+            this.tb_input_x.Location = new System.Drawing.Point(87, 49);
             this.tb_input_x.Name = "tb_input_x";
             this.tb_input_x.ReadOnly = true;
             this.tb_input_x.Size = new System.Drawing.Size(47, 21);
@@ -194,7 +201,7 @@
             // 
             // tb_input_y
             // 
-            this.tb_input_y.Location = new System.Drawing.Point(173, 50);
+            this.tb_input_y.Location = new System.Drawing.Point(173, 49);
             this.tb_input_y.Name = "tb_input_y";
             this.tb_input_y.ReadOnly = true;
             this.tb_input_y.Size = new System.Drawing.Size(47, 21);
@@ -203,7 +210,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(9, 180);
+            this.label7.Location = new System.Drawing.Point(9, 199);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(41, 12);
             this.label7.TabIndex = 2;
@@ -212,7 +219,7 @@
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(61, 80);
+            this.label11.Location = new System.Drawing.Point(61, 77);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(23, 12);
             this.label11.TabIndex = 2;
@@ -221,7 +228,7 @@
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(147, 80);
+            this.label12.Location = new System.Drawing.Point(147, 77);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(23, 12);
             this.label12.TabIndex = 2;
@@ -229,7 +236,7 @@
             // 
             // tb_searchBtn_x
             // 
-            this.tb_searchBtn_x.Location = new System.Drawing.Point(87, 76);
+            this.tb_searchBtn_x.Location = new System.Drawing.Point(87, 73);
             this.tb_searchBtn_x.Name = "tb_searchBtn_x";
             this.tb_searchBtn_x.ReadOnly = true;
             this.tb_searchBtn_x.Size = new System.Drawing.Size(47, 21);
@@ -238,7 +245,7 @@
             // 
             // tb_searchBtn_y
             // 
-            this.tb_searchBtn_y.Location = new System.Drawing.Point(173, 76);
+            this.tb_searchBtn_y.Location = new System.Drawing.Point(173, 73);
             this.tb_searchBtn_y.Name = "tb_searchBtn_y";
             this.tb_searchBtn_y.ReadOnly = true;
             this.tb_searchBtn_y.Size = new System.Drawing.Size(47, 21);
@@ -256,7 +263,7 @@
             // 
             // btn_input
             // 
-            this.btn_input.Location = new System.Drawing.Point(232, 49);
+            this.btn_input.Location = new System.Drawing.Point(232, 48);
             this.btn_input.Name = "btn_input";
             this.btn_input.Size = new System.Drawing.Size(55, 23);
             this.btn_input.TabIndex = 4;
@@ -266,7 +273,7 @@
             // 
             // btn_searchBtn
             // 
-            this.btn_searchBtn.Location = new System.Drawing.Point(232, 75);
+            this.btn_searchBtn.Location = new System.Drawing.Point(232, 72);
             this.btn_searchBtn.Name = "btn_searchBtn";
             this.btn_searchBtn.Size = new System.Drawing.Size(55, 23);
             this.btn_searchBtn.TabIndex = 4;
@@ -302,7 +309,7 @@
             // 
             // btn_inputClick
             // 
-            this.btn_inputClick.Location = new System.Drawing.Point(293, 50);
+            this.btn_inputClick.Location = new System.Drawing.Point(293, 48);
             this.btn_inputClick.Name = "btn_inputClick";
             this.btn_inputClick.Size = new System.Drawing.Size(51, 23);
             this.btn_inputClick.TabIndex = 6;
@@ -312,7 +319,7 @@
             // 
             // btn_searchBtnClick
             // 
-            this.btn_searchBtnClick.Location = new System.Drawing.Point(293, 74);
+            this.btn_searchBtnClick.Location = new System.Drawing.Point(293, 72);
             this.btn_searchBtnClick.Name = "btn_searchBtnClick";
             this.btn_searchBtnClick.Size = new System.Drawing.Size(51, 23);
             this.btn_searchBtnClick.TabIndex = 6;
@@ -322,14 +329,14 @@
             // 
             // tb_goodsName
             // 
-            this.tb_goodsName.Location = new System.Drawing.Point(63, 176);
+            this.tb_goodsName.Location = new System.Drawing.Point(63, 195);
             this.tb_goodsName.Name = "tb_goodsName";
             this.tb_goodsName.Size = new System.Drawing.Size(157, 21);
             this.tb_goodsName.TabIndex = 7;
             // 
             // btn_goodsTextClick
             // 
-            this.btn_goodsTextClick.Location = new System.Drawing.Point(293, 174);
+            this.btn_goodsTextClick.Location = new System.Drawing.Point(293, 194);
             this.btn_goodsTextClick.Name = "btn_goodsTextClick";
             this.btn_goodsTextClick.Size = new System.Drawing.Size(51, 23);
             this.btn_goodsTextClick.TabIndex = 8;
@@ -340,7 +347,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(9, 105);
+            this.label4.Location = new System.Drawing.Point(9, 102);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(29, 12);
             this.label4.TabIndex = 2;
@@ -349,7 +356,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(61, 105);
+            this.label8.Location = new System.Drawing.Point(61, 102);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(23, 12);
             this.label8.TabIndex = 2;
@@ -358,7 +365,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(147, 105);
+            this.label9.Location = new System.Drawing.Point(147, 102);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(23, 12);
             this.label9.TabIndex = 2;
@@ -366,7 +373,7 @@
             // 
             // tb_goods_x
             // 
-            this.tb_goods_x.Location = new System.Drawing.Point(87, 101);
+            this.tb_goods_x.Location = new System.Drawing.Point(87, 98);
             this.tb_goods_x.Name = "tb_goods_x";
             this.tb_goods_x.ReadOnly = true;
             this.tb_goods_x.Size = new System.Drawing.Size(47, 21);
@@ -375,7 +382,7 @@
             // 
             // tb_goods_y
             // 
-            this.tb_goods_y.Location = new System.Drawing.Point(173, 101);
+            this.tb_goods_y.Location = new System.Drawing.Point(173, 98);
             this.tb_goods_y.Name = "tb_goods_y";
             this.tb_goods_y.ReadOnly = true;
             this.tb_goods_y.Size = new System.Drawing.Size(47, 21);
@@ -383,7 +390,7 @@
             // 
             // btn_goodsClick
             // 
-            this.btn_goodsClick.Location = new System.Drawing.Point(293, 99);
+            this.btn_goodsClick.Location = new System.Drawing.Point(293, 97);
             this.btn_goodsClick.Name = "btn_goodsClick";
             this.btn_goodsClick.Size = new System.Drawing.Size(51, 23);
             this.btn_goodsClick.TabIndex = 6;
@@ -393,7 +400,7 @@
             // 
             // btn_goods
             // 
-            this.btn_goods.Location = new System.Drawing.Point(232, 100);
+            this.btn_goods.Location = new System.Drawing.Point(232, 97);
             this.btn_goods.Name = "btn_goods";
             this.btn_goods.Size = new System.Drawing.Size(55, 23);
             this.btn_goods.TabIndex = 4;
@@ -404,7 +411,7 @@
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(9, 130);
+            this.label13.Location = new System.Drawing.Point(9, 149);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(29, 12);
             this.label13.TabIndex = 2;
@@ -413,7 +420,7 @@
             // label14
             // 
             this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(61, 130);
+            this.label14.Location = new System.Drawing.Point(61, 149);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(23, 12);
             this.label14.TabIndex = 2;
@@ -422,7 +429,7 @@
             // label15
             // 
             this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(147, 130);
+            this.label15.Location = new System.Drawing.Point(147, 149);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(23, 12);
             this.label15.TabIndex = 2;
@@ -430,7 +437,7 @@
             // 
             // tb_firstGood_x
             // 
-            this.tb_firstGood_x.Location = new System.Drawing.Point(87, 126);
+            this.tb_firstGood_x.Location = new System.Drawing.Point(87, 145);
             this.tb_firstGood_x.Name = "tb_firstGood_x";
             this.tb_firstGood_x.ReadOnly = true;
             this.tb_firstGood_x.Size = new System.Drawing.Size(47, 21);
@@ -439,7 +446,7 @@
             // 
             // tb_firstGood_y
             // 
-            this.tb_firstGood_y.Location = new System.Drawing.Point(173, 126);
+            this.tb_firstGood_y.Location = new System.Drawing.Point(173, 145);
             this.tb_firstGood_y.Name = "tb_firstGood_y";
             this.tb_firstGood_y.ReadOnly = true;
             this.tb_firstGood_y.Size = new System.Drawing.Size(47, 21);
@@ -447,7 +454,7 @@
             // 
             // btn_firstGood
             // 
-            this.btn_firstGood.Location = new System.Drawing.Point(232, 125);
+            this.btn_firstGood.Location = new System.Drawing.Point(232, 144);
             this.btn_firstGood.Name = "btn_firstGood";
             this.btn_firstGood.Size = new System.Drawing.Size(55, 23);
             this.btn_firstGood.TabIndex = 4;
@@ -457,7 +464,7 @@
             // 
             // btn_firstGoodBtn
             // 
-            this.btn_firstGoodBtn.Location = new System.Drawing.Point(293, 124);
+            this.btn_firstGoodBtn.Location = new System.Drawing.Point(293, 144);
             this.btn_firstGoodBtn.Name = "btn_firstGoodBtn";
             this.btn_firstGoodBtn.Size = new System.Drawing.Size(51, 23);
             this.btn_firstGoodBtn.TabIndex = 6;
@@ -468,7 +475,7 @@
             // label16
             // 
             this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(9, 155);
+            this.label16.Location = new System.Drawing.Point(9, 174);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(29, 12);
             this.label16.TabIndex = 2;
@@ -477,7 +484,7 @@
             // label17
             // 
             this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(61, 155);
+            this.label17.Location = new System.Drawing.Point(61, 174);
             this.label17.Name = "label17";
             this.label17.Size = new System.Drawing.Size(23, 12);
             this.label17.TabIndex = 2;
@@ -486,7 +493,7 @@
             // label18
             // 
             this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(147, 155);
+            this.label18.Location = new System.Drawing.Point(147, 174);
             this.label18.Name = "label18";
             this.label18.Size = new System.Drawing.Size(23, 12);
             this.label18.TabIndex = 2;
@@ -494,7 +501,7 @@
             // 
             // tb_buy_x
             // 
-            this.tb_buy_x.Location = new System.Drawing.Point(87, 151);
+            this.tb_buy_x.Location = new System.Drawing.Point(87, 170);
             this.tb_buy_x.Name = "tb_buy_x";
             this.tb_buy_x.ReadOnly = true;
             this.tb_buy_x.Size = new System.Drawing.Size(47, 21);
@@ -503,7 +510,7 @@
             // 
             // tb_buy_y
             // 
-            this.tb_buy_y.Location = new System.Drawing.Point(173, 151);
+            this.tb_buy_y.Location = new System.Drawing.Point(173, 170);
             this.tb_buy_y.Name = "tb_buy_y";
             this.tb_buy_y.ReadOnly = true;
             this.tb_buy_y.Size = new System.Drawing.Size(47, 21);
@@ -511,7 +518,7 @@
             // 
             // btn_buy
             // 
-            this.btn_buy.Location = new System.Drawing.Point(232, 150);
+            this.btn_buy.Location = new System.Drawing.Point(232, 169);
             this.btn_buy.Name = "btn_buy";
             this.btn_buy.Size = new System.Drawing.Size(55, 23);
             this.btn_buy.TabIndex = 4;
@@ -521,7 +528,7 @@
             // 
             // btn_buyClick
             // 
-            this.btn_buyClick.Location = new System.Drawing.Point(293, 149);
+            this.btn_buyClick.Location = new System.Drawing.Point(293, 169);
             this.btn_buyClick.Name = "btn_buyClick";
             this.btn_buyClick.Size = new System.Drawing.Size(51, 23);
             this.btn_buyClick.TabIndex = 6;
@@ -531,7 +538,7 @@
             // 
             // btn_begin
             // 
-            this.btn_begin.Location = new System.Drawing.Point(173, 263);
+            this.btn_begin.Location = new System.Drawing.Point(173, 271);
             this.btn_begin.Name = "btn_begin";
             this.btn_begin.Size = new System.Drawing.Size(96, 23);
             this.btn_begin.TabIndex = 9;
@@ -544,7 +551,7 @@
             this.cb_needSearch.AutoSize = true;
             this.cb_needSearch.Checked = true;
             this.cb_needSearch.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cb_needSearch.Location = new System.Drawing.Point(9, 78);
+            this.cb_needSearch.Location = new System.Drawing.Point(9, 75);
             this.cb_needSearch.Name = "cb_needSearch";
             this.cb_needSearch.Size = new System.Drawing.Size(48, 16);
             this.cb_needSearch.TabIndex = 10;
@@ -555,7 +562,7 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(9, 234);
+            this.label10.Location = new System.Drawing.Point(9, 252);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(53, 12);
             this.label10.TabIndex = 11;
@@ -568,7 +575,7 @@
             0,
             0,
             0});
-            this.nud_thr.Location = new System.Drawing.Point(68, 229);
+            this.nud_thr.Location = new System.Drawing.Point(68, 248);
             this.nud_thr.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -677,7 +684,7 @@
             // lbe_p
             // 
             this.lbe_p.AutoSize = true;
-            this.lbe_p.Location = new System.Drawing.Point(9, 206);
+            this.lbe_p.Location = new System.Drawing.Point(9, 225);
             this.lbe_p.Name = "lbe_p";
             this.lbe_p.Size = new System.Drawing.Size(53, 12);
             this.lbe_p.TabIndex = 15;
@@ -686,7 +693,7 @@
             // label22
             // 
             this.label22.AutoSize = true;
-            this.label22.Location = new System.Drawing.Point(61, 206);
+            this.label22.Location = new System.Drawing.Point(61, 225);
             this.label22.Name = "label22";
             this.label22.Size = new System.Drawing.Size(23, 12);
             this.label22.TabIndex = 2;
@@ -695,7 +702,7 @@
             // label23
             // 
             this.label23.AutoSize = true;
-            this.label23.Location = new System.Drawing.Point(147, 206);
+            this.label23.Location = new System.Drawing.Point(147, 225);
             this.label23.Name = "label23";
             this.label23.Size = new System.Drawing.Size(23, 12);
             this.label23.TabIndex = 2;
@@ -703,7 +710,7 @@
             // 
             // tb_offsetx
             // 
-            this.tb_offsetx.Location = new System.Drawing.Point(87, 202);
+            this.tb_offsetx.Location = new System.Drawing.Point(87, 221);
             this.tb_offsetx.Name = "tb_offsetx";
             this.tb_offsetx.Size = new System.Drawing.Size(47, 21);
             this.tb_offsetx.TabIndex = 16;
@@ -711,14 +718,14 @@
             // 
             // tb_offsety
             // 
-            this.tb_offsety.Location = new System.Drawing.Point(173, 202);
+            this.tb_offsety.Location = new System.Drawing.Point(173, 221);
             this.tb_offsety.Name = "tb_offsety";
             this.tb_offsety.Size = new System.Drawing.Size(47, 21);
             this.tb_offsety.TabIndex = 16;
             // 
             // btn_offset
             // 
-            this.btn_offset.Location = new System.Drawing.Point(293, 202);
+            this.btn_offset.Location = new System.Drawing.Point(293, 220);
             this.btn_offset.Name = "btn_offset";
             this.btn_offset.Size = new System.Drawing.Size(51, 23);
             this.btn_offset.TabIndex = 17;
@@ -726,11 +733,79 @@
             this.btn_offset.UseVisualStyleBackColor = true;
             this.btn_offset.Click += new System.EventHandler(this.btn_offset_Click);
             // 
+            // cb_price
+            // 
+            this.cb_price.AutoSize = true;
+            this.cb_price.Location = new System.Drawing.Point(9, 124);
+            this.cb_price.Name = "cb_price";
+            this.cb_price.Size = new System.Drawing.Size(48, 16);
+            this.cb_price.TabIndex = 18;
+            this.cb_price.Text = "价格";
+            this.cb_price.UseVisualStyleBackColor = true;
+            this.cb_price.CheckedChanged += new System.EventHandler(this.cb_price_CheckedChanged);
+            // 
+            // label24
+            // 
+            this.label24.AutoSize = true;
+            this.label24.Location = new System.Drawing.Point(61, 126);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(23, 12);
+            this.label24.TabIndex = 2;
+            this.label24.Text = "X：";
+            // 
+            // label25
+            // 
+            this.label25.AutoSize = true;
+            this.label25.Location = new System.Drawing.Point(147, 126);
+            this.label25.Name = "label25";
+            this.label25.Size = new System.Drawing.Size(23, 12);
+            this.label25.TabIndex = 2;
+            this.label25.Text = "Y：";
+            // 
+            // tb_price_x
+            // 
+            this.tb_price_x.Location = new System.Drawing.Point(87, 122);
+            this.tb_price_x.Name = "tb_price_x";
+            this.tb_price_x.ReadOnly = true;
+            this.tb_price_x.Size = new System.Drawing.Size(47, 21);
+            this.tb_price_x.TabIndex = 3;
+            this.tb_price_x.Tag = "price";
+            // 
+            // tb_price_y
+            // 
+            this.tb_price_y.Location = new System.Drawing.Point(173, 122);
+            this.tb_price_y.Name = "tb_price_y";
+            this.tb_price_y.ReadOnly = true;
+            this.tb_price_y.Size = new System.Drawing.Size(47, 21);
+            this.tb_price_y.TabIndex = 3;
+            // 
+            // btn_price
+            // 
+            this.btn_price.Location = new System.Drawing.Point(232, 121);
+            this.btn_price.Name = "btn_price";
+            this.btn_price.Size = new System.Drawing.Size(55, 23);
+            this.btn_price.TabIndex = 4;
+            this.btn_price.Text = "选区";
+            this.btn_price.UseVisualStyleBackColor = true;
+            this.btn_price.Click += new System.EventHandler(this.bt_0_Click);
+            // 
+            // btn_priceClick
+            // 
+            this.btn_priceClick.Enabled = false;
+            this.btn_priceClick.Location = new System.Drawing.Point(293, 121);
+            this.btn_priceClick.Name = "btn_priceClick";
+            this.btn_priceClick.Size = new System.Drawing.Size(51, 23);
+            this.btn_priceClick.TabIndex = 6;
+            this.btn_priceClick.Text = "点击";
+            this.btn_priceClick.UseVisualStyleBackColor = true;
+            this.btn_priceClick.Click += new System.EventHandler(this.btn_testClick_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(546, 298);
+            this.ClientSize = new System.Drawing.Size(351, 306);
+            this.Controls.Add(this.cb_price);
             this.Controls.Add(this.btn_offset);
             this.Controls.Add(this.tb_offsety);
             this.Controls.Add(this.tb_offsetx);
@@ -746,6 +821,7 @@
             this.Controls.Add(this.tb_goodsName);
             this.Controls.Add(this.btn_buyClick);
             this.Controls.Add(this.btn_firstGoodBtn);
+            this.Controls.Add(this.btn_priceClick);
             this.Controls.Add(this.btn_goodsClick);
             this.Controls.Add(this.btn_searchBtnClick);
             this.Controls.Add(this.btn_inputClick);
@@ -753,6 +829,7 @@
             this.Controls.Add(this.btn_searchClick);
             this.Controls.Add(this.btn_buy);
             this.Controls.Add(this.btn_firstGood);
+            this.Controls.Add(this.btn_price);
             this.Controls.Add(this.btn_goods);
             this.Controls.Add(this.btn_searchBtn);
             this.Controls.Add(this.btn_input);
@@ -760,6 +837,7 @@
             this.Controls.Add(this.tb_firstGood_y);
             this.Controls.Add(this.btn_transaction);
             this.Controls.Add(this.btn_search);
+            this.Controls.Add(this.tb_price_y);
             this.Controls.Add(this.tb_goods_y);
             this.Controls.Add(this.tb_buy_x);
             this.Controls.Add(this.tb_searchBtn_y);
@@ -767,8 +845,10 @@
             this.Controls.Add(this.tb_input_y);
             this.Controls.Add(this.label23);
             this.Controls.Add(this.label18);
+            this.Controls.Add(this.tb_price_x);
             this.Controls.Add(this.tb_goods_x);
             this.Controls.Add(this.label15);
+            this.Controls.Add(this.label25);
             this.Controls.Add(this.tb_searchBtn_x);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.label12);
@@ -777,6 +857,7 @@
             this.Controls.Add(this.tb_input_x);
             this.Controls.Add(this.tb_transaction_y);
             this.Controls.Add(this.label14);
+            this.Controls.Add(this.label24);
             this.Controls.Add(this.tb_search_y);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.label11);
@@ -874,6 +955,13 @@
         private System.Windows.Forms.TextBox tb_offsetx;
         private System.Windows.Forms.TextBox tb_offsety;
         private System.Windows.Forms.Button btn_offset;
+        private System.Windows.Forms.CheckBox cb_price;
+        private System.Windows.Forms.Label label24;
+        private System.Windows.Forms.Label label25;
+        private System.Windows.Forms.TextBox tb_price_x;
+        private System.Windows.Forms.TextBox tb_price_y;
+        private System.Windows.Forms.Button btn_price;
+        private System.Windows.Forms.Button btn_priceClick;
     }
 }
 
